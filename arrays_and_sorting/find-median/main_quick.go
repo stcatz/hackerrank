@@ -5,6 +5,9 @@ import "bufio"
 import "os"
 import "strconv"
 
+
+/*
+
 func partition(x []int) int {
 	key := x[len(x)-1]
 
@@ -35,6 +38,29 @@ func partition(x []int) int {
 
 	return availabel
 }
+*/
+
+func partition(x []int) int {
+	i,j := 0, len(x)-1
+	key := x[j]
+
+	for i < j {
+		for x[i] <= key && i<j {
+			i++
+		}
+
+		x[i], x[j] = x[j], x[i]
+
+		for x[j] > key && i<j {
+			j--
+		}
+
+		x[i], x[j] = x[j], x[i]
+
+	}
+
+	return j
+}
 
 func find_mid(x []int, pos int) int {
 	if(len(x) < 2){
@@ -44,14 +70,14 @@ func find_mid(x []int, pos int) int {
 	pivot := partition(x)
 
 	n := pivot - pos
-
 	if n == 0 {
 		return x[pivot]
 	}else if n > 0 {
 		return find_mid(x[0:pivot], pos)
 	}else{
-		return find_mid(x[pivot:len(x)], -n)
+		return find_mid(x[pivot+1:len(x)], -n-1)
 	}
+
 }
 
 
